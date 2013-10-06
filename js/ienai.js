@@ -17,7 +17,7 @@ $(document).ready(function(data) {
 
             $("#entry" + index).FeedEk({
                 FeedUrl: value,
-                MaxCount: 2,
+                MaxCount: 3,
                 ShowPubDate: false,
                 DescCharacterLimit: 1000,
             });

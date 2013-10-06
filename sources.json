@@ -15,8 +15,5 @@
     "http://news.cnet.com/8300-10805_3-75.xml",
     "http://www.engadget.com/rss.xml",
     "http://rss.cnn.com/rss/cnn_tech.rss",
-    "http://www.technologyreview.com/computing/rss/",
-    "http://www.technologyreview.com/communications/rss/",
-    "http://www.technologyreview.com/biomedicine/rss/",
-    "http://www.technologyreview.com/web/rss/"
+    "http://www.technologyreview.com/computing/rss/"
 ]
