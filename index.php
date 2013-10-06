@@ -11,8 +11,12 @@
 <body bgcolor="#ffffff">
   <div class="container">
     <div class="page-header">
-  	   <h1>ienai-tech</h1>
-       <p class="lead">Read the best technology news from good resources</p>
+      <h1>ienai-tech</h1>
+      <p class="lead">Read the best technology news from good resources</p>
+      <p>
+        <a href="https://github.com/lexinerus/" class="btn btn-primary btn-small">About the autor</a>
+        <a href="https://github.com/lexinerus/ienai" class="btn btn-success btn-small">ienai on GitHub</a>
+      </p>
     </div>
     <div class="row-fluid marketing" id="entries">
     </div>
