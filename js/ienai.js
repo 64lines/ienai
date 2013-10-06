@@ -9,8 +9,7 @@ function fixVisualConfiguration(size) {
 
 function showResources(listFeeds) {
     $.each(listFeeds, function(index, value){
-        var hostAddress = document.location.host;
-        var newsUrl = hostAddress;
+        var newsUrl = document.location.host;
 
         var twitterText = "Sharing news: " 
             + value 
