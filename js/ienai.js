@@ -8,7 +8,9 @@ function fixVisualConfiguration(size) {
 }
 
 function showResources(listFeeds) {
-    $.each(listFeeds, function(index, value){
+    listFeeds.sort(function() {return 0.5 - Math.random()});
+    
+    $.each(listFeeds, function(index, value) {
         var newsUrl = document.location.host;
 
         var twitterText = "Sharing news: " 
