@@ -15,5 +15,14 @@
     "http://news.cnet.com/8300-10805_3-75.xml",
     "http://www.engadget.com/rss.xml",
     "http://rss.cnn.com/rss/cnn_tech.rss",
-    "http://www.technologyreview.com/computing/rss/"
+    "http://www.technologyreview.com/computing/rss/",
+    "http://feeds.gawker.com/gizmodo/full",
+    "http://feeds.wired.com/wiredscience",
+    "http://feeds.wired.com/GearFactor",
+    "http://feeds.wired.com/Gamelife",
+    "http://feeds.wired.com/wiredgeekdad",
+    "http://feeds.wired.com/wiredgeekmom/",
+    "http://feeds.wired.com/wiredinsights",
+    "http://feeds.wired.com/ThisDayInTech",
+    "http://feeds.wired.com/wiredunderwire"
 ]

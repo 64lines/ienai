@@ -9,6 +9,12 @@ body {
 	margin-left: 0px !important;
 }
 
+.randomButton {
+	margin-bottom: 20px;
+	text-align: center;	
+}
+
+
 ul {
 	margin: 0 0 0 0 !important;	
 }

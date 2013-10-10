@@ -1,8 +1,15 @@
-var TWITTER_SHARE_TEXT = "https://twitter.com/intent/tweet?original_referer=https%3A%2F%2Ftwitter.com%2Fabout%2Fresources%2Fbuttons&text=";
+var HOST_NAME = document.location.host;
+var TWITTER_SHARE_TEXT = "https://twitter.com/intent/tweet?"
+                            + "original_referer=http%3A%2F%2F" 
+                            + HOST_NAME 
+                            + "%2F"
+                            + "&"
+                            + "text=";
 var HASH_TAGS = " %23news %23technology";
+var NEWS_FOR_ROW = 4;
 
 function fixVisualConfiguration(size) {
-    for(var i = 0; i < size; i = i + 5) {
+    for(var i = 0; i < size; i = i + NEWS_FOR_ROW) {
         $("#news" + i).addClass("removeMargin");
     }
 }
@@ -16,7 +23,6 @@ function addShareButtons(parent) {
     titleElement.append($("<br>"));
      
     titleElement.append(function() { 
-        var newsUrl = document.location.host;
         var newTitle = $(this).children("a").text();
         var value = $(this).children("a").attr("href");
         var twitterText = "Sharing news: "
@@ -24,7 +30,7 @@ function addShareButtons(parent) {
             + " "
             + value
             + " via "
-            + newsUrl 
+            + HOST_NAME 
             + " " 
             + HASH_TAGS;
  
@@ -63,6 +69,7 @@ function addShareButtons(parent) {
 
 
 function showResources(listFeeds) {
+    var continerEntries = null;
     listFeeds.sort(function() {return 0.5 - Math.random()});
     
     $.each(listFeeds, function(index, value) {
@@ -77,8 +84,16 @@ function showResources(listFeeds) {
 
         spanEntry.append(entry);
 
-        $("#entries").append(spanEntry);
+        if(index % NEWS_FOR_ROW == 0){
+            continerEntries = $("<div>");
+            continerEntries.addClass("entries");
+            continerEntries.addClass("row-fluid marketing");
+            $(".container").append(continerEntries);
+        }        
 
+        continerEntries.append(spanEntry);
+
+        // Get feeds and save it into div
         $("#entry" + index).FeedEk({
             FeedUrl: value,
             MaxCount: 3,
@@ -87,17 +102,23 @@ function showResources(listFeeds) {
             TitleLinkTarget: '_blank',
             Success: function() {
                 addShareButtons($("#entry" + index));
+                fixVisualConfiguration();
+                $("iframe").remove();
             }
         });
     });
 }
 
 $(document).ready(function(data) {
-    $.get("sources.json", function(listFeeds) { 
-        var size = listFeeds.length;
+    $.get("sources.json", function(listFeeds) {
+        var size = listFeeds.length; 
         showResources(listFeeds);
         fixVisualConfiguration(size);
     }).fail(function(data){
         console.log("Error: Is not a valid JSON");
     });    
+
+    $("#randomNews").click(function(){
+        document.location.reload();
+    });
 });
