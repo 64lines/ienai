@@ -13,10 +13,16 @@
  * Email: julian.alexander.murillo@gmail.com
  */
 
+// Constants
 var ROW_NUMBER = 1;
-var NEWS_LIMIT = 32;
+var NEWS_LIMIT = 100;
 var NEWS_FOR_ROW = 4;
-var MAIN_NEWS_INDEX = 0;
+var CHAR_LIMIT = 256;
+var NEWS_FOR_COLUMN = 10;
+
+// Variables
+var globalNewIndex = 0;
+var listWatchedItems = [];
 
 function fixVisualConfiguration(size) {
     for(var i = 0; i < size; i = i + NEWS_LIMIT) {
@@ -39,7 +45,13 @@ function showResources(listFeeds) {
         });
 
         // News for row
-        $.each(listFeeds, function(index, value) {
+        var index = 0;
+        $.each(listFeeds, function(k, value) {
+
+            // If current news is saw then 'continue'
+            if (listWatchedItems.indexOf(value) != -1) {                
+                return true;
+            }
 
             if (index == NEWS_FOR_ROW) {
                 return false;
@@ -47,10 +59,10 @@ function showResources(listFeeds) {
 
             var spanEntry = $("<span>");
             spanEntry.addClass("span3");
-            spanEntry.attr("id", "news" + MAIN_NEWS_INDEX);
+            spanEntry.attr("id", "news" + globalNewIndex);
 
             var entry = $("<div>");
-            entry.attr("id", "entry" + MAIN_NEWS_INDEX);
+            entry.attr("id", "entry" + globalNewIndex);
             entry.attr("title", "Resource: " + value)
             entry.addClass("newsPanel");
 
@@ -59,14 +71,15 @@ function showResources(listFeeds) {
             $(".container").append(continerEntries);
 
             // Get feeds and save it into div
-            $("#entry" + MAIN_NEWS_INDEX).FeedEk({
+            $("#entry" + globalNewIndex).FeedEk({
                 FeedUrl: value,
-                MaxCount: NEWS_FOR_ROW,
+                MaxCount: NEWS_FOR_COLUMN,
                 ShowPubDate: true,
-                DescCharacterLimit: 256,
+                ShowDesc: true,
+                DescCharacterLimit: CHAR_LIMIT,
                 TitleLinkTarget: '_blank',
                 Success: function() {
-                    var parentElement = $("#entry" + MAIN_NEWS_INDEX).children(".feedEkList");
+                    var parentElement = $("#entry" + globalNewIndex).children(".feedEkList");
                     var titleElement = parentElement.children("li").children(".itemTitle");
                     titleElement.append($("<br>"));
 
@@ -75,11 +88,16 @@ function showResources(listFeeds) {
                     cleanFormat();
                 }
             });
+            
+            // Save items wached for avoid repetitions.
+            listWatchedItems.push(value);
 
             // Remove this new, this shouln't appear again.
             listFeeds.splice(index, 1)
-            console.log("" + listFeeds.length);
-            MAIN_NEWS_INDEX++;
+
+            // Increases
+            globalNewIndex++;
+            index++;
         });
     }     
 }
@@ -87,6 +105,7 @@ function showResources(listFeeds) {
 function cleanFormat() {
     $("div").attr("style", "");
     $("img").attr("style", "");
+    $("img").attr("hspace", "");
 }
 
  /*

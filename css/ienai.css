@@ -1,11 +1,12 @@
 body { font-size: 11px; }
-ul { margin: 0 0 0 0 !important; padding: 10px; border-style: dotted; border-radius: 10px;}
+ul { margin: 0 0 0 0 !important; padding: 10px; border-style: dotted; border-color: #ddd; border-radius: 10px; box-shadow: 1px 1px 22px #ddd;}
 li { list-style: none; }
 
 .newsPanel ul li { margin-bottom: 10px; }
 
 .removeMargin { margin-left: 0px !important; }
 .randomButton {	margin-bottom: 20px; text-align: center; }
+
 
 .itemDate { color: #aaa; }
 .itemTitle a { font-size: 14px; }
