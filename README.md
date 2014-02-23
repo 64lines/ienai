@@ -1,4 +1,5 @@
 ienai
 =====
 
-Ienai-tech is a news tool made with javascript, boostrap and css
+The first news blog written on jQuery without any database engine.
+News from amazing resources.

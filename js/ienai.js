@@ -1,124 +1,126 @@
-var HOST_NAME = document.location.host;
-var TWITTER_SHARE_TEXT = "https://twitter.com/intent/tweet?"
-                            + "original_referer=http%3A%2F%2F" 
-                            + HOST_NAME 
-                            + "%2F"
-                            + "&"
-                            + "text=";
-var HASH_TAGS = " %23news %23technology";
+/* Ienai Project
+ * 
+ * Ineai Project has as purpose write a news blog
+ * without any database engine, using a single JSON file.
+ * 
+ * As we see, it works and I am happy for that.
+ *
+ * Make yourself at home.
+ *
+ * Author: Julian Alexander Murillo
+ * Twitter: @lexinerus
+ * GitHub: https://github.com/lexinerus/
+ * Email: julian.alexander.murillo@gmail.com
+ */
+
+var ROW_NUMBER = 1;
+var NEWS_LIMIT = 32;
 var NEWS_FOR_ROW = 4;
+var MAIN_NEWS_INDEX = 0;
 
 function fixVisualConfiguration(size) {
-    for(var i = 0; i < size; i = i + NEWS_FOR_ROW) {
+    for(var i = 0; i < size; i = i + NEWS_LIMIT) {
         $("#news" + i).addClass("removeMargin");
     }
 }
 
-function addShareButtons(parent) {
-    var titleElement = parent
-                    .children(".feedEkList")
-                    .children("li")
-                    .children(".itemTitle");
-
-    titleElement.append($("<br>"));
-     
-    titleElement.append(function() { 
-        var newTitle = $(this).children("a").text();
-        var value = $(this).children("a").attr("href");
-        var twitterText = "Sharing news: "
-            + newTitle
-            + " "
-            + value
-            + " via "
-            + HOST_NAME 
-            + " " 
-            + HASH_TAGS;
- 
-        var buttonLink = TWITTER_SHARE_TEXT + twitterText;
-     
-        var iconButtonShare = $("<span>");
-        iconButtonShare.addClass("icon-share-alt icon-white");
-     
-        var shareButton = $("<a>");
-        shareButton.attr("href", buttonLink);
-        shareButton.attr("style", "margin: 5px 0px 5px 0px;");
-        shareButton.attr("title", "Share on twitter " + value);
-        shareButton.attr("target", "_blank");
-        shareButton.addClass("btn btn-primary btn-small share-button");
-        shareButton.append(iconButtonShare);    
-     
-        return shareButton;
-    });
-     
-    titleElement.append(function() { 
-        var iconButtonGo = $("<span>");
-        var value = $(this).children("a").attr("href");
-        iconButtonGo.addClass("icon-globe icon-white");
-     
-        var gotToResourceButton = $("<a>");
-        gotToResourceButton.attr("href", value);
-        gotToResourceButton.attr("style", "margin: 5px 5px 5px 5px;");
-        gotToResourceButton.attr("title", "Go to " + value);
-        gotToResourceButton.attr("target", "_blank");
-        gotToResourceButton.addClass("btn btn-success btn-small share-button");
-        gotToResourceButton.append(iconButtonGo);
-     
-        return gotToResourceButton;
-    });    
-}
-
-
 function showResources(listFeeds) {
     var continerEntries = null;
-    listFeeds.sort(function() {return 0.5 - Math.random()});
     
-    $.each(listFeeds, function(index, value) {
-        var spanEntry = $("<span>");
-        spanEntry.addClass("span3");
-        spanEntry.attr("id", "news" + index);
+    // Row number
+    for(var i = 0; i < ROW_NUMBER; i++) {
+        continerEntries = $("<div>");
+        continerEntries.addClass("entries");
+        continerEntries.addClass("row-fluid marketing page-header");
 
-        var entry = $("<div>");
-        entry.attr("id", "entry" + index);
-        entry.attr("title", "Resource: " + value)
-        entry.addClass("newsPanel");
-
-        spanEntry.append(entry);
-
-        if(index % NEWS_FOR_ROW == 0){
-            continerEntries = $("<div>");
-            continerEntries.addClass("entries");
-            continerEntries.addClass("row-fluid marketing");
-            $(".container").append(continerEntries);
-        }        
-
-        continerEntries.append(spanEntry);
-
-        // Get feeds and save it into div
-        $("#entry" + index).FeedEk({
-            FeedUrl: value,
-            MaxCount: 3,
-            ShowPubDate: false,
-            DescCharacterLimit: 1000,
-            TitleLinkTarget: '_blank',
-            Success: function() {
-                addShareButtons($("#entry" + index));
-                fixVisualConfiguration();
-                $("iframe").remove();
-            }
+        // Feeds are ordered randomically
+        listFeeds.sort(function() {
+            return 0.5 - Math.random()
         });
-    });
+
+        // News for row
+        $.each(listFeeds, function(index, value) {
+
+            if (index == NEWS_FOR_ROW) {
+                return false;
+            }
+
+            var spanEntry = $("<span>");
+            spanEntry.addClass("span3");
+            spanEntry.attr("id", "news" + MAIN_NEWS_INDEX);
+
+            var entry = $("<div>");
+            entry.attr("id", "entry" + MAIN_NEWS_INDEX);
+            entry.attr("title", "Resource: " + value)
+            entry.addClass("newsPanel");
+
+            spanEntry.append(entry);
+            continerEntries.append(spanEntry);
+            $(".container").append(continerEntries);
+
+            // Get feeds and save it into div
+            $("#entry" + MAIN_NEWS_INDEX).FeedEk({
+                FeedUrl: value,
+                MaxCount: NEWS_FOR_ROW,
+                ShowPubDate: true,
+                DescCharacterLimit: 256,
+                TitleLinkTarget: '_blank',
+                Success: function() {
+                    var parentElement = $("#entry" + MAIN_NEWS_INDEX).children(".feedEkList");
+                    var titleElement = parentElement.children("li").children(".itemTitle");
+                    titleElement.append($("<br>"));
+
+                    fixVisualConfiguration();
+                    $("iframe").remove();
+                    cleanFormat();
+                }
+            });
+
+            // Remove this new, this shouln't appear again.
+            listFeeds.splice(index, 1)
+            console.log("" + listFeeds.length);
+            MAIN_NEWS_INDEX++;
+        });
+    }     
 }
 
-$(document).ready(function(data) {
+function cleanFormat() {
+    $("div").attr("style", "");
+    $("img").attr("style", "");
+}
+
+ /*
+ * Get all resourses from sources.json, this resources
+ * are added manually by the author.
+ */
+function getResources() { 
     $.get("sources.json", function(listFeeds) {
-        var size = listFeeds.length; 
+        var size = 0;
+        listFeeds = listFeeds.slice(0, NEWS_LIMIT);
+        size = listFeeds.length; 
+        
         showResources(listFeeds);
         fixVisualConfiguration(size);
     }).fail(function(data){
         console.log("Error: Is not a valid JSON");
     });    
+}
+
+$(document).ready(function(data) {
+    getResources();
 
     $("#randomNews").click(function(){
         document.location.reload();
+    });
+
+    
+    /*
+     * Infinite scroll
+     */
+    $(window).scroll(function() {
+        var scrollIndicator = document.documentElement.clientHeight + $(document).scrollTop();
+        if (scrollIndicator >= document.body.offsetHeight) { 
+            getResources();
+        }
     });
 });
