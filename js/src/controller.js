@@ -41,7 +41,9 @@ GUIFormat = {
     formatContent: function() {
         $(".itemContent").each(function(index, element) {
             var contentText = $(element).text();
+
             var image = $(element).children('img');
+            image.attr('class', 'img-responsive');
 
             // Create a new header element
             var headerElement = $("<h3>");
