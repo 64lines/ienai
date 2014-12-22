@@ -1,12 +1,7 @@
-body { font-size: 11px; }
-ul { margin: 0 0 0 0 !important; padding: 10px; border-style: dotted; border-color: #ddd; border-radius: 10px; box-shadow: 1px 1px 22px #ddd;}
-li { list-style: none; }
-
-.newsPanel ul li { margin-bottom: 10px; }
-
-.removeMargin { margin-left: 0px !important; }
-.randomButton {	margin-bottom: 20px; text-align: center; }
-
-
-.itemDate { color: #aaa; }
 .itemTitle a { font-size: 14px; }
+.news-subtitle { margin: 0; font-weight: 300; margin-bottom: 10px; margin-top: 10px;}
+.news-meta { color: gray; font-size: 18px; font-style: italic; margin-top: 0; }
+
+ul>li {list-style-type: none;}
+ul { padding-left: 0px; }
+.panel-time { width: 200px; position: fixed; top: 60px; right: 40px; }
