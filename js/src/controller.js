@@ -17,6 +17,9 @@ var GUIFormat = {};
 var ResourcesControl = {};
 var Events = {}
 
+/**
+ * Class to manage the formating of the html content.
+ */
 GUIFormat = {
     // Titles
     formatTitles: function() {
@@ -82,6 +85,10 @@ GUIFormat = {
     }
 }
 
+/**
+ * Class to manage the functions of getting data from 
+ * feed resources.
+ */
 ResourcesControl = {
     NEWS_LIMIT: 20,
     CHAR_LIMIT: 256,
@@ -119,6 +126,10 @@ Events = {
     SECONDS_COUNTER: 15,
     loadEvents: function() {
         ResourcesControl.loadResources('#news-entry'); 
+        
+        $('#shuffle-news').on('click', function() {
+            window.location.reload();
+        });
     },
     buttonEnvents: function() {
         // Amazing random button
