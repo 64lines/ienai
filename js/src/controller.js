@@ -21,7 +21,10 @@ var Events = {}
  * Class to manage the formating of the html content.
  */
 GUIFormat = {
-    // Titles
+    /**
+     * Applies the format to the titles of the
+     * HTML feeds.
+     */
     formatTitles: function() {
         $(".itemTitle").each(function(index, element) {
             var titleText = $(element).html();
@@ -40,7 +43,10 @@ GUIFormat = {
         });
     },
 
-    // Content
+    /**
+     * Appli the format to the content of 
+     * the HTML feeds.
+     */
     formatContent: function() {
         $(".itemContent").each(function(index, element) {
             var contentText = $(element).text();
@@ -60,7 +66,9 @@ GUIFormat = {
         });
     },
 
-    // Meta-data
+    /**
+     * Applies the format for the PostMetaData. 
+     */
     formatPostMetadata: function() {
         $(".itemDate").each(function(index, element) {
             var metaData = "";
@@ -98,11 +106,6 @@ ResourcesControl = {
     },
     loadResources: function(divId) {
         var randomIndex = this.generateRandomIndex();
-
-        /*if(this.listAlreadyAddedNews.indexOf(randomIndex) != -1) {
-            return;
-        }*/
-
         var randomUrl = Resources.list[randomIndex];
 
         this.listAlreadyAddedNews.push(randomIndex);
