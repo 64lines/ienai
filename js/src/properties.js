@@ -8,8 +8,6 @@ var Resources = {
         "http://feeds.feedburner.com/Mobilecrunch",
         "http://feeds.feedburner.com/crunchgear",
         "http://feeds.feedburner.com/TechCrunchIT",
-        "http://twitrss.me/twitter_user_to_rss/?user=Discovery",
-        "http://twitrss.me/twitter_user_to_rss/?user=nytimes",
         "http://www.engadget.com/rss.xml",
     ]
 };
