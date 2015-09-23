@@ -8,7 +8,8 @@ Events = {
         ResourcesControl.loadResources('#news-entry'); 
         
         $('#shuffle-news').on('click', function() {
-            window.location.reload();
+            ResourcesControl.loadResources('#news-entry'); 
+            window.scrollTo(0, 0);
         });
     },
     buttonEnvents: function() {
