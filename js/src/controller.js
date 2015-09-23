@@ -8,14 +8,15 @@
  * Make yourself at home.
  *
  * Author: Julian Alexander Murillo
- * Twitter: @lexinerus
- * GitHub: https://github.com/lexinerus/
+ * Twitter: @64lines
+ * GitHub: https://github.com/64lines/
  * Email: julian.alexander.murillo@gmail.com
  */
 
-var GUIFormat = {};
-var ResourcesControl = {};
-var Events = {}
+var GUIFormat = GUIFormat || {};
+var ResourcesControl = ResourcesControl || {};
+var Utils = Utils || {};
+var Events = Events || {};
 
 /**
  * Class to manage the formating of the html content.
@@ -50,6 +51,7 @@ GUIFormat = {
     formatContent: function() {
         $(".itemContent").each(function(index, element) {
             var contentText = $(element).text();
+            contentText = Utils.removeHtmlTags(contentText);
 
             var image = $(element).children('img');
             image.attr('class', 'img-responsive');
@@ -108,6 +110,7 @@ ResourcesControl = {
         var randomIndex = this.generateRandomIndex();
         var randomUrl = Resources.list[randomIndex];
 
+        $(".current-resource").text(randomUrl).attr("href", randomUrl);
         this.listAlreadyAddedNews.push(randomIndex);
         $(divId).FeedEk({
             FeedUrl: randomUrl,
@@ -123,4 +126,18 @@ ResourcesControl = {
             }
         });
     }
+}
+
+/** 
+ * Class to provide additional utilities
+ */
+Utils = {
+    /**
+     * Removes html tags from the text
+     * @param {String} text, the text to remove html tags.
+     * @return {String} the text without the html tags.
+     */
+    removeHtmlTags: function(text) {
+        return text.replace(/<\/?[^>]+(>|$)/g, "");
+    },
 }
